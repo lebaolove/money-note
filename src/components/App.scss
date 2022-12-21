@@ -1,14 +1,13 @@
-/* reset */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+@import 'reset';
+@import './List/List';
 
-/* App */
+/* color */
+$colorIn: #0040FF;
+$colorOut: red;
+
 #mNote {
     background: #fff;
-    width: #{"min(600px, 90%)"};
+    width: Min(600px, 90%);
     margin: 30px auto 0;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     padding: 30px;
@@ -36,13 +35,27 @@
         }
         &.income {
             dd {
-                color: #0040FF;
+                color: $colorIn;
             }
         }
         &.expense {
             dd {
-                color: red;
+                color: $colorOut;
             }
         }
+    }
+}
+
+@include List;
+
+#btn_add {
+    margin-top: 30px;
+    width: 100%;
+    height: 60px;
+    font-size: 18px;
+    border-radius: 7px;
+    transition: all 0.2s;
+    &:hover {
+        background: #ddd;
     }
 }

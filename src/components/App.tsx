@@ -1,9 +1,10 @@
 import React from 'react';
 import './App.scss';
+import List from './List/List';
 
 function App() {
-  const [income, setIncome] = React.useState(300);
-  const [expense, setExpense] = React.useState(20); 
+  const [income, setIncome] = React.useState<number>(300);
+  const [expense, setExpense] = React.useState<number>(20); 
 
   const date = new Date();
   const year = date.getFullYear();
@@ -12,6 +13,7 @@ function App() {
   return (
     <div className="App">
       <div id="mNote">
+        {/* [S] TOP AREA */}
         <div className="top-container">
           <p className="month">{year}년 {month}월</p>
           <p className="my-money">{income - expense}원</p>
@@ -26,6 +28,9 @@ function App() {
             </dl>
           </div>
         </div>
+        {/* [E] TOP AREA */}
+        <List setIncome={setIncome} setExpense={setExpense}/>
+        <button id="btn_add">내역 추가</button>
       </div>
     </div>
   );
