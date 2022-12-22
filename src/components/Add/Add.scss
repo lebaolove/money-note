@@ -1,0 +1,9 @@
+@mixin Add {
+    #Add {
+        opacity: 0;
+        transition: all 0.3s;
+        &.on {
+            opacity: 1;
+        }
+    }
+}

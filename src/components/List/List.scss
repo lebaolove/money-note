@@ -1,5 +1,6 @@
 @mixin List {
     #list {
+        margin-bottom: 30px;
         .sort {
             button {
                 background: transparent;

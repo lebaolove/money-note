@@ -1,5 +1,6 @@
 @import 'reset';
 @import './List/List';
+@import './Add/Add';
 
 /* color */
 $colorIn: #0040FF;
@@ -49,7 +50,6 @@ $colorOut: red;
 @include List;
 
 #btn_add {
-    margin-top: 30px;
     width: 100%;
     height: 60px;
     font-size: 18px;
@@ -59,3 +59,5 @@ $colorOut: red;
         background: #ddd;
     }
 }
+
+@include Add;

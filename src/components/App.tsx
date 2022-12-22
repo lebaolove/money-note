@@ -1,10 +1,12 @@
 import React from 'react';
 import './App.scss';
 import List from './List/List';
+import Add from './Add/Add';
 
 function App() {
   const [income, setIncome] = React.useState<number>(300);
   const [expense, setExpense] = React.useState<number>(20); 
+  const [viewAdd, setViewAdd] = React.useState<boolean>(false);
 
   const date = new Date();
   const year = date.getFullYear();
@@ -29,8 +31,15 @@ function App() {
           </div>
         </div>
         {/* [E] TOP AREA */}
+
         <List setIncome={setIncome} setExpense={setExpense}/>
-        <button id="btn_add">내역 추가</button>
+
+        {viewAdd ? 
+          <Add />
+          : 
+          <button id="btn_add" onClick={() => setViewAdd(true)}>내역 추가</button>
+        }
+
       </div>
     </div>
   );
