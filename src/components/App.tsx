@@ -35,7 +35,7 @@ function App() {
         <List setIncome={setIncome} setExpense={setExpense}/>
 
         {viewAdd ? 
-          <Add />
+          <Add setViewAdd={setViewAdd} />
           : 
           <button id="btn_add" onClick={() => setViewAdd(true)}>내역 추가</button>
         }
