@@ -1,61 +1,30 @@
-import React from 'react';
-
-interface IListItem {
-    date: number;
-    content: string;
-    price: number;
-    inout: 'in'|'out';
-}
+import { useState, useEffect } from 'react';
+import { IListItem } from '../App';
 
 interface IList {
-    setIncome: React.Dispatch<React.SetStateAction<number>>;
-    setExpense: React.Dispatch<React.SetStateAction<number>>;
+    moneyList: IListItem[];
 }
 
 function List(props: IList) {
     type TSort = '전체'|'수입'|'지출';
-    const [activeSort, setActiveSort] = React.useState<TSort>('전체');
-    
-    const testList: IListItem[] = [
-        {
-            date: 21,
-            content: '이마트 장보기',
-            price: 30000,
-            inout: 'out'
-        },
-        {
-            date: 21,
-            content: '부업',
-            price: 1000,
-            inout: 'in'
-        },
-        {
-            date: 20,
-            content: '부업',
-            price: 500,
-            inout: 'in'
-        },
-    ];
-    const [moneyList, setMoneyList] = React.useState<Array<IListItem>>(testList);
-
     const sort: TSort[] = ['전체', '수입', '지출'];
+    const [activeSort, setActiveSort] = useState<TSort>('전체');
+    const [moneyList, setMoneyList] = useState<IListItem[]>(props.moneyList);
+    const [clickedItem, setClickedItem] = useState<number>(-1);
 
-    React.useEffect(() => {
-        let list: IListItem[] = [...testList];
+    useEffect(() => {
+        setMoneyList(props.moneyList);
+    }, [props.moneyList]);
 
+    useEffect(() => {
+        let list: IListItem[] = [...props.moneyList];
         if(activeSort !== '전체') {
             const value = activeSort === '수입' ? 'in' : 'out';
-            list = [...testList].filter(v => v.inout === value);
+            list = [...props.moneyList].filter(v => v.inout === value);
         }
         setMoneyList(list);
+        setClickedItem(-1);
     }, [activeSort]);
-
-    React.useEffect(() => {
-        const income = [...testList].filter(v => v.inout === 'in').map(v => v.price).reduce((a,b) => a + b);
-        const expense = [...testList].filter(v => v.inout === 'out').map(v => v.price).reduce((a,b) => a + b);
-        props.setIncome(income);
-        props.setExpense(expense);
-    }, []);
 
     return (
         <div id="list">
@@ -71,14 +40,17 @@ function List(props: IList) {
                 })}
             </div>
             <ul className="list">
-                {moneyList.map((item, i) => {
+                {moneyList.map((item) => {
                     return (
                         <ListItem 
-                            key={i}
+                            key={item.id}
+                            id={item.id}
                             date={item.date}
                             content={item.content}
                             price={item.price}
                             inout={item.inout}
+                            isClicked={clickedItem === item.id}
+                            setClickedItem={setClickedItem}
                         />
                     );
                 })}
@@ -87,13 +59,26 @@ function List(props: IList) {
     );
 }
 
-function ListItem(props: IListItem) {
-    const { date, content, price, inout } = props;
+interface IListItem2 extends IListItem {
+    isClicked: boolean;
+    setClickedItem: React.Dispatch<React.SetStateAction<number>>;
+}
+function ListItem(props: IListItem2) {
+    const { id, date, content, price, inout, isClicked, setClickedItem } = props;
     return (
-        <li>
-            <h4 className="date">{date}</h4>
-            <p className="content">{content}</p>
-            <p className={`price ${inout}`}>{inout === 'in' ? '+' : '-'}{price}원</p>
+        <li 
+            className={`${inout} ${isClicked ? 'clicked' : ''}`} 
+            onClick={() => {
+                if(isClicked) setClickedItem(-1);
+                else setClickedItem(id);
+            }}
+        >
+            <div className="item-info">
+                <h4 className="date">{date}</h4>
+                <p className="content">{content}</p>
+                <p className={`price ${inout}`}>{inout === 'in' ? '+' : '-'}{price.toLocaleString()}원</p>
+            </div>
+            <div className="btn-area"></div>
         </li>
     );
 }

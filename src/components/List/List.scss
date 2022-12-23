@@ -1,3 +1,7 @@
+@mixin clickedItem {
+    transition: all 0.2s linear;
+}
+
 @mixin List {
     #list {
         margin-bottom: 30px;
@@ -15,13 +19,18 @@
         }
         .list {
             li {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
                 height: 60px;
-                border-bottom: 1px solid #ddd;
-                &:first-child {
-                    border-top: 1px solid #ddd;
+                margin: 3px 0;
+                cursor: pointer;
+                position: relative;
+                overflow: hidden;
+                .item-info {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;  
+                    height: 100%;
+                    width: calc(100% - 15px);
+                    @include clickedItem;
                 }
                 .date {
                     width: 10%;
@@ -39,11 +48,39 @@
                     font-size: 19px;
                     font-weight: bold;
                     text-align: right;
-                    &.in {
+                }
+                .btn-area {
+                    width: 15px;
+                    position: absolute;
+                    right: 0;
+                    top: 0;
+                    bottom: 0;
+                    @include clickedItem;
+                }
+                &.in {
+                    background-color: #ddf4fd;
+                    .price {
                         color: $colorIn;
                     }
-                    &.out {
+                    .btn-area {
+                        background-color: #6c6ce1;
+                    }
+                }
+                &.out {
+                    background-color: #ffe1e7;
+                    .price {
                         color: $colorOut;
+                    }
+                    .btn-area {
+                        background-color: #e95a5a;
+                    }
+                }
+                &.clicked {
+                    .item-info {
+                        transform: translateX(-50%);
+                    }
+                    .btn-area {
+                        width: 50%;
                     }
                 }
             }

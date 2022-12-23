@@ -23,7 +23,7 @@
             margin-bottom: 10px;
             color: #333;
         }
-        input[type="text"] {
+        input {
             height: 35px;
             border: 1px solid #aaa;
             border-radius: 7px;
@@ -74,11 +74,8 @@
                 height: 40px;
                 font-size: 16px;
                 &.add {
-                    background-color: rgb(154, 116, 225);
+                    background-color: #000;
                     color: #fff;
-                    &:hover {
-                        background-color: rgb(126, 73, 222);
-                    }
                 }
                 &.cancel {
                     background-color: #ddd;
