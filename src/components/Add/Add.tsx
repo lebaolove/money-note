@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Dispatch, SetStateAction } from 'react';
 import { setTimeout } from 'timers';
 import { IListItem } from '../App';
 
 interface IAdd {
     moneyList: IListItem[];
-    setViewAdd: React.Dispatch<React.SetStateAction<boolean>>;
-    setMoneyList: React.Dispatch<React.SetStateAction<IListItem[]>>;
+    setViewAdd: Dispatch<SetStateAction<boolean>>;
+    setMoneyList: Dispatch<SetStateAction<IListItem[]>>;
 }
 
 function Add(props: IAdd) {

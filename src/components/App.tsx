@@ -50,7 +50,7 @@ function App() {
         </div>
         {/* [E] TOP AREA */}
 
-        <List moneyList={moneyList}/>
+        <List moneyList={moneyList} setMoneyList={setMoneyList}/>
 
         {viewAdd ? 
           <Add setViewAdd={setViewAdd} setMoneyList={setMoneyList} moneyList={moneyList}/>

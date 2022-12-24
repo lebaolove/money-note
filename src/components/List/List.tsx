@@ -1,30 +1,37 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Dispatch, SetStateAction } from 'react';
 import { IListItem } from '../App';
 
 interface IList {
     moneyList: IListItem[];
+    setMoneyList: Dispatch<SetStateAction<IListItem[]>>;
 }
 
 function List(props: IList) {
+    const { moneyList, setMoneyList } = props;
     type TSort = '전체'|'수입'|'지출';
     const sort: TSort[] = ['전체', '수입', '지출'];
     const [activeSort, setActiveSort] = useState<TSort>('전체');
-    const [moneyList, setMoneyList] = useState<IListItem[]>(props.moneyList);
+    const [viewList, setViewList] = useState<IListItem[]>(moneyList);
     const [clickedItem, setClickedItem] = useState<number>(-1);
 
     useEffect(() => {
-        setMoneyList(props.moneyList);
-    }, [props.moneyList]);
+        setViewList(moneyList);
+    }, [moneyList]);
 
     useEffect(() => {
-        let list: IListItem[] = [...props.moneyList];
+        let list: IListItem[] = [...moneyList];
         if(activeSort !== '전체') {
             const value = activeSort === '수입' ? 'in' : 'out';
-            list = [...props.moneyList].filter(v => v.inout === value);
+            list = [...moneyList].filter(v => v.inout === value);
         }
-        setMoneyList(list);
+        setViewList(list);
         setClickedItem(-1);
     }, [activeSort]);
+
+    const deleteItem = (id: number) => {
+        const deletedList = moneyList.filter(item => item.id !== id);
+        setMoneyList(deletedList);
+    }
 
     return (
         <div id="list">
@@ -40,7 +47,7 @@ function List(props: IList) {
                 })}
             </div>
             <ul className="list">
-                {moneyList.map((item) => {
+                {viewList.map((item) => {
                     return (
                         <ListItem 
                             key={item.id}
@@ -51,6 +58,7 @@ function List(props: IList) {
                             inout={item.inout}
                             isClicked={clickedItem === item.id}
                             setClickedItem={setClickedItem}
+                            deleteItem={deleteItem}
                         />
                     );
                 })}
@@ -61,10 +69,11 @@ function List(props: IList) {
 
 interface IListItem2 extends IListItem {
     isClicked: boolean;
-    setClickedItem: React.Dispatch<React.SetStateAction<number>>;
+    setClickedItem: Dispatch<SetStateAction<number>>;
+    deleteItem: (id:number) => void;
 }
 function ListItem(props: IListItem2) {
-    const { id, date, content, price, inout, isClicked, setClickedItem } = props;
+    const { id, date, content, price, inout, isClicked, setClickedItem, deleteItem } = props;
     return (
         <li 
             className={`${inout} ${isClicked ? 'clicked' : ''}`} 
@@ -78,7 +87,10 @@ function ListItem(props: IListItem2) {
                 <p className="content">{content}</p>
                 <p className={`price ${inout}`}>{inout === 'in' ? '+' : '-'}{price.toLocaleString()}원</p>
             </div>
-            <div className="btn-area"></div>
+            <div className="btn-area">
+                <button>수정</button>
+                <button onClick={() => deleteItem(id)}>삭제</button>
+            </div>
         </li>
     );
 }

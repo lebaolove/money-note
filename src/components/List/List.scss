@@ -56,6 +56,27 @@
                     top: 0;
                     bottom: 0;
                     @include clickedItem;
+                    display: flex;
+                    button {
+                        visibility: hidden;
+                        flex: 1;
+                        color: #fff;
+                        background: transparent;
+                        font-size: 15px;
+                        margin: 5px;
+                        position: relative;
+                        &:hover {
+                            &::before {
+                                content: "";
+                                position: absolute;
+                                top: 0;
+                                bottom: 0;
+                                left: 0;
+                                right: 0;
+                                border: 3px solid #fff;
+                            }
+                        }
+                    }
                 }
                 &.in {
                     background-color: #ddf4fd;
@@ -77,10 +98,13 @@
                 }
                 &.clicked {
                     .item-info {
-                        transform: translateX(-50%);
+                        transform: translateX(-40%);
                     }
                     .btn-area {
-                        width: 50%;
+                        width: 40%;
+                        button {
+                            visibility: visible;
+                        }
                     }
                 }
             }
