@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import './App.scss';
 import List from './List/List';
 import Add from './Add/Add';
+import Modi from './Modi/Modi';
 
 export interface IListItem {
   id: number;
@@ -10,12 +11,14 @@ export interface IListItem {
   price: number;
   inout: 'in'|'out';
 }
+export type TActiveInput = ''|'add'|'modi';
 
 function App() {
   const [income, setIncome] = useState<number>(0);
   const [expense, setExpense] = useState<number>(0); 
-  const [viewAdd, setViewAdd] = useState<boolean>(false);
+  const [activeInput, setActiveInput] = useState<TActiveInput>('');
   const [moneyList, setMoneyList] = useState<IListItem[]>([]);
+  const [modiItem, setModiItem] = useState<IListItem>();
 
   const date = new Date();
   const year = date.getFullYear();
@@ -50,12 +53,30 @@ function App() {
         </div>
         {/* [E] TOP AREA */}
 
-        <List moneyList={moneyList} setMoneyList={setMoneyList}/>
+        <List 
+          moneyList={moneyList} 
+          activeInput={activeInput}
+          setMoneyList={setMoneyList} 
+          setActiveInput={setActiveInput}
+          setModiItem={setModiItem}
+        />
 
-        {viewAdd ? 
-          <Add setViewAdd={setViewAdd} setMoneyList={setMoneyList} moneyList={moneyList}/>
-          : 
-          <button id="btn_add" onClick={() => setViewAdd(true)}>내역 추가</button>
+        {activeInput === 'add' ?
+          <Add 
+            moneyList={moneyList}
+            setMoneyList={setMoneyList} 
+            setActiveInput={setActiveInput} 
+          />
+          :
+          activeInput === 'modi' ?
+          <Modi 
+            moneyList={moneyList}
+            modiItem={modiItem}
+            setMoneyList={setMoneyList} 
+            setActiveInput={setActiveInput} 
+          />
+          :
+          <button id="btn_add" onClick={() => setActiveInput('add')}>내역 추가</button>
         }
       </div>
     </div>

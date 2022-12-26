@@ -1,13 +1,16 @@
 import { useState, useEffect, Dispatch, SetStateAction } from 'react';
-import { IListItem } from '../App';
+import { IListItem, TActiveInput } from '../App';
 
 interface IList {
     moneyList: IListItem[];
+    activeInput: ''|'add'|'modi';
     setMoneyList: Dispatch<SetStateAction<IListItem[]>>;
+    setActiveInput: Dispatch<SetStateAction<TActiveInput>>;
+    setModiItem: Dispatch<SetStateAction<IListItem|undefined>>;
 }
 
 function List(props: IList) {
-    const { moneyList, setMoneyList } = props;
+    const { moneyList, activeInput, setMoneyList, setActiveInput, setModiItem } = props;
     type TSort = '전체'|'수입'|'지출';
     const sort: TSort[] = ['전체', '수입', '지출'];
     const [activeSort, setActiveSort] = useState<TSort>('전체');
@@ -19,6 +22,10 @@ function List(props: IList) {
     }, [moneyList]);
 
     useEffect(() => {
+        setClickedItem(-1);
+    }, [activeInput]);
+
+    useEffect(() => {
         let list: IListItem[] = [...moneyList];
         if(activeSort !== '전체') {
             const value = activeSort === '수입' ? 'in' : 'out';
@@ -26,11 +33,17 @@ function List(props: IList) {
         }
         setViewList(list);
         setClickedItem(-1);
-    }, [activeSort]);
+    }, [activeSort, moneyList]);
 
     const deleteItem = (id: number) => {
         const deletedList = moneyList.filter(item => item.id !== id);
         setMoneyList(deletedList);
+    }
+
+    const modiItem = (id: number) => {
+        const willModiItem = moneyList.find(item => item.id === id);
+        setModiItem(willModiItem);
+        setActiveInput('modi');
     }
 
     return (
@@ -58,6 +71,7 @@ function List(props: IList) {
                             inout={item.inout}
                             isClicked={clickedItem === item.id}
                             setClickedItem={setClickedItem}
+                            modiItem={modiItem}
                             deleteItem={deleteItem}
                         />
                     );
@@ -70,10 +84,11 @@ function List(props: IList) {
 interface IListItem2 extends IListItem {
     isClicked: boolean;
     setClickedItem: Dispatch<SetStateAction<number>>;
+    modiItem: (id:number) => void;
     deleteItem: (id:number) => void;
 }
 function ListItem(props: IListItem2) {
-    const { id, date, content, price, inout, isClicked, setClickedItem, deleteItem } = props;
+    const { id, date, content, price, inout, isClicked, setClickedItem, modiItem, deleteItem } = props;
     return (
         <li 
             className={`${inout} ${isClicked ? 'clicked' : ''}`} 
@@ -88,7 +103,7 @@ function ListItem(props: IListItem2) {
                 <p className={`price ${inout}`}>{inout === 'in' ? '+' : '-'}{price.toLocaleString()}원</p>
             </div>
             <div className="btn-area">
-                <button>수정</button>
+                <button onClick={() => modiItem(id)}>수정</button>
                 <button onClick={() => deleteItem(id)}>삭제</button>
             </div>
         </li>

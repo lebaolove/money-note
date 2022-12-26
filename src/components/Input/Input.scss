@@ -1,5 +1,5 @@
-@mixin Add {
-    #add {
+@mixin Input {
+    .input-container {
         opacity: 0;
         &.on {
             opacity: 1;
@@ -73,7 +73,7 @@
                 border-radius: 7px;
                 height: 40px;
                 font-size: 16px;
-                &.add {
+                &.action {
                     background-color: #000;
                     color: #fff;
                 }

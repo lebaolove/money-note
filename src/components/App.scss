@@ -1,6 +1,6 @@
 @import 'reset';
 @import './List/List';
-@import './Add/Add';
+@import './Input/Input';
 
 /* color */
 $colorIn: rgb(81, 159, 236);;
@@ -60,4 +60,4 @@ $colorOut: rgb(233, 98, 86);
     }
 }
 
-@include Add;
+@include Input;
