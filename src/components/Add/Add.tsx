@@ -1,4 +1,4 @@
-import { useState, useEffect, Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import { IListItem, TActiveInput } from '../App';
 import Input from '../Input/Input';
 

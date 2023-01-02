@@ -6,7 +6,7 @@ import Modi from './Modi/Modi';
 
 export interface IListItem {
   id: number;
-  date: number;
+  date: string;
   content: string;
   price: number;
   inout: 'in'|'out';

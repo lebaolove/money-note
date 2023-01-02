@@ -30,20 +30,10 @@
             font-size: 17px;
             color: #111;
             width: 100%;
+            padding: 0 10px;
             &::placeholder {
                 color: #bbb;
             }
-        }
-        .date-input {
-            display: flex;
-            justify-content: space-between;
-            input {
-                width: 32%;
-                text-align: center;
-            }
-        }
-        .input-long {
-            padding: 0 10px;
         }
         .inout-btns {
             display: flex;

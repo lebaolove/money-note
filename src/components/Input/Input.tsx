@@ -1,6 +1,9 @@
-import { useState, useEffect, Dispatch, SetStateAction } from 'react';
+import { useState, useEffect, useRef, Dispatch, SetStateAction } from 'react';
 import { setTimeout } from 'timers';
 import { IListItem, TActiveInput } from '../App';
+import Calendar from 'react-calendar';
+import './Calendar.scss';
+import moment from 'moment';
 
 interface IInput {
     type: 'add' | 'modi'
@@ -13,12 +16,11 @@ interface IInput {
 function Input(props: IInput) {
     const { type, moneyList, modiItem, setActiveInput, setMoneyList } = props;
     const [isMounted, setIsMounted] = useState<boolean>(false);
-    const [inputYear, setInputYear] = useState<string>('');
-    const [inputMonth, setInputMonth] = useState<string>('');
-    const [inputDay, setInputDay] = useState<string>('');
+    const [inputDate, setInputDate] = useState<string>('');
     const [activeInout, setActiveInout] = useState<'none'|'in'|'out'>('none');
     const [inputContent, setInputContent] = useState<string>('');
     const [inputPrice, setInputPrice] = useState<string>('');
+    const [calendarOn, setCalendarOn] = useState<boolean>(false);
 
     useEffect(() => {
         setTimeout(() => {
@@ -29,7 +31,7 @@ function Input(props: IInput) {
 
     useEffect(() => {
         if(type === 'modi' && modiItem) {
-            setInputDay(String(modiItem.date));
+            setInputDate(String(modiItem.date));
             setActiveInout(modiItem.inout);
             setInputContent(modiItem.content);
             setInputPrice(String(modiItem.price));
@@ -37,7 +39,7 @@ function Input(props: IInput) {
     }, [type, modiItem])
 
     const action = (type:'add' | 'modi') => {
-        if(inputDay === '') {
+        if(inputDate === '') {
             alert("날짜를 입력해 주세요.");
         } else if(activeInout === 'none') {
             alert("수입/지출 구분해 주세요.");
@@ -54,7 +56,7 @@ function Input(props: IInput) {
                 }
                 const newItem: IListItem = {
                     id: randomId,
-                    date: Number(inputDay),
+                    date: inputDate,
                     content: inputContent,
                     price: Number(inputPrice),
                     inout: activeInout             
@@ -63,7 +65,7 @@ function Input(props: IInput) {
             } else if(type === 'modi' && modiItem) {
                 const willModiItem = newList.find(item => item.id === modiItem.id);
                 if(willModiItem) {
-                    willModiItem.date = Number(inputDay);
+                    willModiItem.date = inputDate;
                     willModiItem.content = inputContent;
                     willModiItem.price = Number(inputPrice);
                     willModiItem.inout = activeInout;
@@ -80,11 +82,24 @@ function Input(props: IInput) {
             <dl>
                 <dt className="item-title">날짜</dt>
                 <dd className="date-input">
-                    <input type="number" placeholder="2022" onChange={(e) => setInputYear(e.target.value)}/>
-                    <input type="number" placeholder="01" onChange={(e) => setInputMonth(e.target.value)}/>
-                    <input type="number" placeholder="01" onChange={(e) => setInputDay(e.target.value)} value={inputDay}/>
+                    <input 
+                        type="text" 
+                        placeholder="2023-01-01" 
+                        value={inputDate} 
+                        readOnly
+                        onClick={() => setCalendarOn(true)}
+                    />
                 </dd>
             </dl>
+            {calendarOn &&
+                <Calendar 
+                    formatDay={(_, date) => moment(date).format("DD")}
+                    onClickDay={(value) => {
+                        setInputDate(moment(value).format("YYYY-MM-DD"));
+                        setCalendarOn(false);
+                    }}
+                />
+            }
             <dl>
                 <dt className="item-title">내용</dt>
                 <dd className="inout-btns">
@@ -98,7 +113,6 @@ function Input(props: IInput) {
                 <dd>
                     <input 
                         type="text" 
-                        className="input-long" 
                         placeholder="내용을 입력해 주세요." 
                         onChange={(e) => setInputContent(e.target.value)}
                         value={inputContent}
@@ -110,7 +124,6 @@ function Input(props: IInput) {
                 <dd>
                     <input 
                         type="text"
-                        className="input-long" 
                         placeholder="금액을 입력해 주세요." 
                         value={Number(inputPrice).toLocaleString()}
                         onChange={(e) => setInputPrice(e.target.value)}

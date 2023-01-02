@@ -65,7 +65,7 @@ function List(props: IList) {
                         <ListItem 
                             key={item.id}
                             id={item.id}
-                            date={item.date}
+                            date={item.date.slice(-2)}
                             content={item.content}
                             price={item.price}
                             inout={item.inout}
