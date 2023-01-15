@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import Calendar from 'react-calendar';
+import moment from 'moment';
 import './App.scss';
 import List from './List/List';
 import Add from './Add/Add';
@@ -19,26 +21,52 @@ function App() {
   const [activeInput, setActiveInput] = useState<TActiveInput>('');
   const [moneyList, setMoneyList] = useState<IListItem[]>([]);
   const [modiItem, setModiItem] = useState<IListItem>();
+  const [calendarOn, setCalendarOn] = useState<boolean>(false);
 
   const date = new Date();
-  const year = date.getFullYear();
-  const month = date.getMonth() + 1;
+  const thisYear = date.getFullYear();
+  const thisMonth = date.getMonth() + 1;
+
+  const [year, setYear] = useState<number|string>(thisYear);
+  const [month, setMonth] = useState<number|string>(thisMonth);
+
+  const listOfThisMonth: IListItem[] = moneyList.filter(item => 
+    item.date.split('-')[0] === String(year) && item.date.split('-')[1] === String(month)
+  );
 
   useEffect(() => {
-    if(moneyList.length !== 0) {
-      const newIncome = [...moneyList].filter(v => v.inout === 'in').map(v => v.price).reduce((a,b) => a + b, 0);
-      const newExpense = [...moneyList].filter(v => v.inout === 'out').map(v => v.price).reduce((a,b) => a + b, 0);
-      setIncome(newIncome);
-      setExpense(newExpense);
-    }
-  }, [moneyList]);
+    const newIncome = listOfThisMonth.filter(v => v.inout === 'in').map(v => v.price).reduce((a,b) => a + b, 0);
+    const newExpense = listOfThisMonth.filter(v => v.inout === 'out').map(v => v.price).reduce((a,b) => a + b, 0);
+    setIncome(newIncome);
+    setExpense(newExpense);
+  }, [listOfThisMonth, year, month]);
 
   return (
     <div className="App">
       <div id="mNote">
         {/* [S] TOP AREA */}
         <div className="top-container">
-          <p className="month">{year}년 {month}월</p>
+          <p className="month">
+            {year}년 {month}월
+            <button className="btn_month" onClick={() => setCalendarOn(true)}>🔻</button>
+          </p>
+          {calendarOn &&
+            <div className="calendar">
+                <div className="bg" onClick={() => {
+                  setYear(thisYear);
+                  setMonth(thisMonth);
+                  setCalendarOn(false);
+                }}/>
+                <Calendar 
+                  defaultView={"year"}
+                  onClickMonth={(value) => {
+                    setYear(moment(value).format("yy"));
+                    setMonth(moment(value).format("M"));
+                    setCalendarOn(false);
+                  }}
+                />
+            </div>
+          }
           <p className="my-money">{(income - expense).toLocaleString()}원</p>
           <div className="in-out">
             <dl className="income">
@@ -56,6 +84,7 @@ function App() {
         <List 
           moneyList={moneyList} 
           activeInput={activeInput}
+          listOfThisMonth={listOfThisMonth}
           setMoneyList={setMoneyList} 
           setActiveInput={setActiveInput}
           setModiItem={setModiItem}

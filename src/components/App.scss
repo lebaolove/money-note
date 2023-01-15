@@ -16,6 +16,22 @@ $colorOut: rgb(233, 98, 86);
 }
 .month {
     font-size: 15px;
+    .btn_month {
+        margin-left: 5px;
+        background: #dbdbdb;
+        border-radius: 3px;
+        font-size: 12px;
+        padding: 1px;
+        color: transparent;
+        text-shadow: 0 0 0 #484848;
+    }
+}
+.calendar .bg {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
 }
 .my-money {
     font-size: 22px;

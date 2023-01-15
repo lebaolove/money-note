@@ -2,8 +2,8 @@ import { useState, useEffect, useRef, Dispatch, SetStateAction } from 'react';
 import { setTimeout } from 'timers';
 import { IListItem, TActiveInput } from '../App';
 import Calendar from 'react-calendar';
-import './Calendar.scss';
 import moment from 'moment';
+import './Calendar.scss';
 
 interface IInput {
     type: 'add' | 'modi'
@@ -21,6 +21,9 @@ function Input(props: IInput) {
     const [inputContent, setInputContent] = useState<string>('');
     const [inputPrice, setInputPrice] = useState<string>('');
     const [calendarOn, setCalendarOn] = useState<boolean>(false);
+    // toLocaleString() 사용 시, 콤마가 들어간 상태에서 뒷자리 추가하면 NaN 발생
+    // -> 콤마를 없애고 숫자로 변환한 뒤에 사용해야 함
+    const priceNum = Number(inputPrice.replace(/,/g, ''));
 
     useEffect(() => {
         setTimeout(() => {
@@ -58,7 +61,7 @@ function Input(props: IInput) {
                     id: randomId,
                     date: inputDate,
                     content: inputContent,
-                    price: Number(inputPrice),
+                    price: priceNum,
                     inout: activeInout             
                 };
                 newList.push(newItem);
@@ -67,7 +70,7 @@ function Input(props: IInput) {
                 if(willModiItem) {
                     willModiItem.date = inputDate;
                     willModiItem.content = inputContent;
-                    willModiItem.price = Number(inputPrice);
+                    willModiItem.price = priceNum;
                     willModiItem.inout = activeInout;
                 }
             }
@@ -92,13 +95,16 @@ function Input(props: IInput) {
                 </dd>
             </dl>
             {calendarOn &&
+            <div className="calendar">
+                <div className="bg" onClick={() => setCalendarOn(false)}/>
                 <Calendar 
                     formatDay={(_, date) => moment(date).format("DD")}
                     onClickDay={(value) => {
-                        setInputDate(moment(value).format("YYYY-MM-DD"));
+                        setInputDate(moment(value).format("YYYY-M-DD"));
                         setCalendarOn(false);
                     }}
                 />
+            </div>
             }
             <dl>
                 <dt className="item-title">내용</dt>
@@ -125,7 +131,7 @@ function Input(props: IInput) {
                     <input 
                         type="text"
                         placeholder="금액을 입력해 주세요." 
-                        value={Number(inputPrice).toLocaleString()}
+                        value={inputPrice === '' ? '' : priceNum.toLocaleString()}
                         onChange={(e) => setInputPrice(e.target.value)}
                     />
                 </dd>

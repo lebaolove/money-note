@@ -4,13 +4,14 @@ import { IListItem, TActiveInput } from '../App';
 interface IList {
     moneyList: IListItem[];
     activeInput: ''|'add'|'modi';
+    listOfThisMonth: IListItem[];
     setMoneyList: Dispatch<SetStateAction<IListItem[]>>;
     setActiveInput: Dispatch<SetStateAction<TActiveInput>>;
     setModiItem: Dispatch<SetStateAction<IListItem|undefined>>;
 }
 
 function List(props: IList) {
-    const { moneyList, activeInput, setMoneyList, setActiveInput, setModiItem } = props;
+    const { moneyList, activeInput, listOfThisMonth, setMoneyList, setActiveInput, setModiItem } = props;
     type TSort = '전체'|'수입'|'지출';
     const sort: TSort[] = ['전체', '수입', '지출'];
     const [activeSort, setActiveSort] = useState<TSort>('전체');
@@ -18,22 +19,19 @@ function List(props: IList) {
     const [clickedItem, setClickedItem] = useState<number>(-1);
 
     useEffect(() => {
-        setViewList(moneyList);
-    }, [moneyList]);
+        if(activeSort !== '전체') {
+            const value = activeSort === '수입' ? 'in' : 'out';
+            const sortList = listOfThisMonth.filter(v => v.inout === value);
+            setViewList(sortList);
+        } else {
+            setViewList(listOfThisMonth);
+        }
+        setClickedItem(-1);
+    }, [listOfThisMonth, activeSort]);
 
     useEffect(() => {
         setClickedItem(-1);
     }, [activeInput]);
-
-    useEffect(() => {
-        let list: IListItem[] = [...moneyList];
-        if(activeSort !== '전체') {
-            const value = activeSort === '수입' ? 'in' : 'out';
-            list = [...moneyList].filter(v => v.inout === value);
-        }
-        setViewList(list);
-        setClickedItem(-1);
-    }, [activeSort, moneyList]);
 
     const deleteItem = (id: number) => {
         const deletedList = moneyList.filter(item => item.id !== id);
