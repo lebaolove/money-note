@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/money-note/static/css/main.9e715ee6.css",
+    "main.js": "/money-note/static/js/main.2d61f728.js",
+    "index.html": "/money-note/index.html",
+    "main.9e715ee6.css.map": "/money-note/static/css/main.9e715ee6.css.map",
+    "main.2d61f728.js.map": "/money-note/static/js/main.2d61f728.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.9e715ee6.css",
+    "static/js/main.2d61f728.js"
+  ]
+}
