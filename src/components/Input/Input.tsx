@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, Dispatch, SetStateAction } from 'react';
+import { useState, useEffect, Dispatch, SetStateAction } from 'react';
 import { setTimeout } from 'timers';
 import { IListItem, TActiveInput } from '../App';
 import Calendar from 'react-calendar';
@@ -54,7 +54,8 @@ function Input(props: IInput) {
             const newList: IListItem[] = [...moneyList];
             if(type === 'add') {
                 let randomId: number = 0;
-                while([...moneyList].find(item => item.id === randomId)) {
+                // eslint-disable-next-line no-loop-func
+                while(moneyList.find(item => item.id === randomId)) {
                     randomId = Math.floor(Math.random() * 100);
                 }
                 const newItem: IListItem = {
@@ -64,7 +65,7 @@ function Input(props: IInput) {
                     price: priceNum,
                     inout: activeInout             
                 };
-                newList.push(newItem);
+                newList.push(newItem);                
             } else if(type === 'modi' && modiItem) {
                 const willModiItem = newList.find(item => item.id === modiItem.id);
                 if(willModiItem) {
@@ -74,6 +75,7 @@ function Input(props: IInput) {
                     willModiItem.inout = activeInout;
                 }
             }
+            newList.sort((a, b) => Number(b.date.split('-')[2]) - Number(a.date.split('-')[2]));
             setMoneyList(newList);
             setActiveInput('');
         }

@@ -52,11 +52,7 @@ function App() {
           </p>
           {calendarOn &&
             <div className="calendar">
-                <div className="bg" onClick={() => {
-                  setYear(thisYear);
-                  setMonth(thisMonth);
-                  setCalendarOn(false);
-                }}/>
+                <div className="bg" onClick={() => setCalendarOn(false)}/>
                 <Calendar 
                   defaultView={"year"}
                   onClickMonth={(value) => {
