@@ -89,6 +89,7 @@ function App() {
         {activeInput === 'add' ?
           <Add 
             moneyList={moneyList}
+            activeInput={activeInput}
             setMoneyList={setMoneyList} 
             setActiveInput={setActiveInput} 
           />
@@ -96,6 +97,7 @@ function App() {
           activeInput === 'modi' ?
           <Modi 
             moneyList={moneyList}
+            activeInput={activeInput}
             modiItem={modiItem}
             setMoneyList={setMoneyList} 
             setActiveInput={setActiveInput} 

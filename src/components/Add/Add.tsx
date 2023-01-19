@@ -4,6 +4,7 @@ import Input from '../Input/Input';
 
 interface IAdd {
     moneyList: IListItem[];
+    activeInput: TActiveInput;
     setActiveInput: Dispatch<SetStateAction<TActiveInput>>;
     setMoneyList: Dispatch<SetStateAction<IListItem[]>>;
 }
@@ -11,7 +12,7 @@ interface IAdd {
 function Add(props: IAdd) {
     return (
         <Input 
-            type={'add'}
+            type={props.activeInput}
             moneyList={props.moneyList}
             setActiveInput={props.setActiveInput}
             setMoneyList={props.setMoneyList}

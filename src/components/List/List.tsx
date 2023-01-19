@@ -3,7 +3,7 @@ import { IListItem, TActiveInput } from '../App';
 
 interface IList {
     moneyList: IListItem[];
-    activeInput: ''|'add'|'modi';
+    activeInput: TActiveInput;
     listOfThisMonth: IListItem[];
     setMoneyList: Dispatch<SetStateAction<IListItem[]>>;
     setActiveInput: Dispatch<SetStateAction<TActiveInput>>;

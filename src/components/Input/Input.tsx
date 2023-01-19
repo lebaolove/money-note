@@ -6,7 +6,7 @@ import moment from 'moment';
 import './Calendar.scss';
 
 interface IInput {
-    type: 'add' | 'modi'
+    type: TActiveInput;
     moneyList: IListItem[];
     modiItem?: IListItem;
     setActiveInput: Dispatch<SetStateAction<TActiveInput>>;
@@ -41,7 +41,7 @@ function Input(props: IInput) {
         }
     }, [type, modiItem])
 
-    const action = (type:'add' | 'modi') => {
+    const action = (type:TActiveInput) => {
         if(inputDate === '') {
             alert("날짜를 입력해 주세요.");
         } else if(activeInout === 'none') {
