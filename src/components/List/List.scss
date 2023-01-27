@@ -1,110 +1,110 @@
+@import '../../styles/common.scss';
+
 @mixin clickedItem {
     transition: all 0.2s linear;
 }
 
-@mixin List {
-    #list {
-        margin-bottom: 30px;
-        .sort {
-            button {
-                background: transparent;
-                font-size: 15px;
-                padding: 7px 5px;
-                color: #777;
-                &.active {
-                    color: #222;
-                    font-weight: bold;
-                }
+#list {
+    margin-bottom: 30px;
+    .sort {
+        button {
+            background: transparent;
+            font-size: 15px;
+            padding: 7px 5px;
+            color: #777;
+            &.active {
+                color: #222;
+                font-weight: bold;
             }
         }
-        .list {
-            li {
-                height: 60px;
-                margin: 3px 0;
-                cursor: pointer;
-                position: relative;
-                overflow: hidden;
-                .item-info {
-                    display: flex;
-                    align-items: center;
-                    justify-content: space-between;  
-                    height: 100%;
-                    width: calc(100% - 15px);
-                    @include clickedItem;
-                }
-                .date {
-                    width: 10%;
-                    font-size: 18px;
-                    text-align: center;
-                    color: #333;
-                }
-                .content {
+    }
+    .list {
+        li {
+            height: 60px;
+            margin: 3px 0;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            .item-info {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;  
+                height: 100%;
+                width: calc(100% - 15px);
+                @include clickedItem;
+            }
+            .date {
+                width: 10%;
+                font-size: 18px;
+                text-align: center;
+                color: #333;
+            }
+            .content {
+                flex: 1;
+                padding: 0 15px;
+            }
+            .price {
+                width: 25%;
+                padding-right: 10px;
+                font-size: 19px;
+                font-weight: bold;
+                text-align: right;
+            }
+            .btn-area {
+                width: 15px;
+                position: absolute;
+                right: 0;
+                top: 0;
+                bottom: 0;
+                @include clickedItem;
+                display: flex;
+                button {
+                    visibility: hidden;
                     flex: 1;
-                    padding: 0 15px;
+                    color: #fff;
+                    background: transparent;
+                    font-size: 15px;
+                    margin: 5px;
+                    position: relative;
+                    &:hover {
+                        &::before {
+                            content: "";
+                            position: absolute;
+                            top: 0;
+                            bottom: 0;
+                            left: 0;
+                            right: 0;
+                            border: 3px solid #fff;
+                        }
+                    }
                 }
+            }
+            &.in {
+                background-color: #ddf4fd;
                 .price {
-                    width: 25%;
-                    padding-right: 10px;
-                    font-size: 19px;
-                    font-weight: bold;
-                    text-align: right;
+                    color: $colorIn;
                 }
                 .btn-area {
-                    width: 15px;
-                    position: absolute;
-                    right: 0;
-                    top: 0;
-                    bottom: 0;
-                    @include clickedItem;
-                    display: flex;
+                    background-color: #6c6ce1;
+                }
+            }
+            &.out {
+                background-color: #ffe1e7;
+                .price {
+                    color: $colorOut;
+                }
+                .btn-area {
+                    background-color: #e95a5a;
+                }
+            }
+            &.clicked {
+                .item-info {
+                    transform: translateX(-40%);
+                }
+                .btn-area {
+                    width: 40%;
                     button {
-                        visibility: hidden;
-                        flex: 1;
-                        color: #fff;
-                        background: transparent;
-                        font-size: 15px;
-                        margin: 5px;
-                        position: relative;
-                        &:hover {
-                            &::before {
-                                content: "";
-                                position: absolute;
-                                top: 0;
-                                bottom: 0;
-                                left: 0;
-                                right: 0;
-                                border: 3px solid #fff;
-                            }
-                        }
-                    }
-                }
-                &.in {
-                    background-color: #ddf4fd;
-                    .price {
-                        color: $colorIn;
-                    }
-                    .btn-area {
-                        background-color: #6c6ce1;
-                    }
-                }
-                &.out {
-                    background-color: #ffe1e7;
-                    .price {
-                        color: $colorOut;
-                    }
-                    .btn-area {
-                        background-color: #e95a5a;
-                    }
-                }
-                &.clicked {
-                    .item-info {
-                        transform: translateX(-40%);
-                    }
-                    .btn-area {
-                        width: 40%;
-                        button {
-                            visibility: visible;
-                        }
+                        visibility: visible;
                     }
                 }
             }

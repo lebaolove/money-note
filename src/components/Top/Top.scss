@@ -1,0 +1,45 @@
+@import '../../styles/common.scss';
+
+.top-container {
+    .month {
+        font-size: 15px;
+        .btn_month {
+            margin-left: 5px;
+            background: #dbdbdb;
+            border-radius: 3px;
+            font-size: 12px;
+            padding: 1px;
+            color: transparent;
+            text-shadow: 0 0 0 #484848;
+        }
+    }
+    .my-money {
+        font-size: 22px;
+        font-weight: bold;
+    }
+    .in-out {
+        margin: 30px 0;
+        display: flex;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        border-radius: 7px;
+        dl {
+            flex: 1;
+            text-align: center;
+            padding: 15px 0;
+            dd {
+                font-size: 18px;
+                font-weight: bold;
+            }
+            &.income {
+                dd {
+                    color: $colorIn;
+                }
+            }
+            &.expense {
+                dd {
+                    color: $colorOut;
+                }
+            }
+        }
+    }
+}

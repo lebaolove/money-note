@@ -1,22 +1,27 @@
-import { useState, useEffect, Dispatch, SetStateAction } from 'react';
-import { IListItem, TActiveInput } from '../App';
+import { useState, useEffect, useContext } from 'react';
+import { IListItem, ActiveInputContext, MoneyListContext, DateContext } from '../../App';
+import './List.scss';
 
 interface IList {
-    moneyList: IListItem[];
-    activeInput: TActiveInput;
-    listOfThisMonth: IListItem[];
-    setMoneyList: Dispatch<SetStateAction<IListItem[]>>;
-    setActiveInput: Dispatch<SetStateAction<TActiveInput>>;
-    setModiItem: Dispatch<SetStateAction<IListItem|undefined>>;
+    setModiItem: (modiItem: IListItem|undefined) => void;
 }
+type TSort = '전체'|'수입'|'지출';
 
 function List(props: IList) {
-    const { moneyList, activeInput, listOfThisMonth, setMoneyList, setActiveInput, setModiItem } = props;
-    type TSort = '전체'|'수입'|'지출';
+    const { moneyList, setMoneyList } = useContext(MoneyListContext);
+    const { activeInput, setActiveInput } = useContext(ActiveInputContext);
+    const { year, month, listOfThisMonth } = useContext(DateContext);
+    const { setModiItem } = props;
+
     const sort: TSort[] = ['전체', '수입', '지출'];
+
     const [activeSort, setActiveSort] = useState<TSort>('전체');
     const [viewList, setViewList] = useState<IListItem[]>(moneyList);
     const [clickedItem, setClickedItem] = useState<number>(-1);
+
+    useEffect(() => {
+        setActiveSort('전체');
+    }, [year, month]);
 
     useEffect(() => {
         if(activeSort !== '전체') {
@@ -53,7 +58,9 @@ function List(props: IList) {
                             key={i}
                             className={activeSort === item ? 'active' : ''} 
                             onClick={() => setActiveSort(item)}
-                        >{item}</button>
+                        >
+                            {item}
+                        </button>
                     );
                 })}
             </div>
@@ -81,10 +88,11 @@ function List(props: IList) {
 
 interface IListItem2 extends IListItem {
     isClicked: boolean;
-    setClickedItem: Dispatch<SetStateAction<number>>;
+    setClickedItem: (clickedItem: number) => void;
     modiItem: (id:number) => void;
     deleteItem: (id:number) => void;
 }
+
 function ListItem(props: IListItem2) {
     const { id, date, content, price, inout, isClicked, setClickedItem, modiItem, deleteItem } = props;
     return (
