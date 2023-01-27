@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/money-note/static/css/main.9e715ee6.css",
-    "main.js": "/money-note/static/js/main.2d61f728.js",
+    "main.css": "/money-note/static/css/main.8a57a114.css",
+    "main.js": "/money-note/static/js/main.297f8e0b.js",
     "index.html": "/money-note/index.html",
-    "main.9e715ee6.css.map": "/money-note/static/css/main.9e715ee6.css.map",
-    "main.2d61f728.js.map": "/money-note/static/js/main.2d61f728.js.map"
+    "main.8a57a114.css.map": "/money-note/static/css/main.8a57a114.css.map",
+    "main.297f8e0b.js.map": "/money-note/static/js/main.297f8e0b.js.map"
   },
   "entrypoints": [
-    "static/css/main.9e715ee6.css",
-    "static/js/main.2d61f728.js"
+    "static/css/main.8a57a114.css",
+    "static/js/main.297f8e0b.js"
   ]
 }
