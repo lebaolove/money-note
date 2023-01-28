@@ -17,8 +17,17 @@ function Top(props: ITop) {
     const [expense, setExpense] = useState<number>(0); 
   
     React.useEffect(() => {
-        const newIncome = listOfThisMonth.filter(v => v.inout === 'in').map(v => v.price).reduce((a,b) => a + b, 0);
-        const newExpense = listOfThisMonth.filter(v => v.inout === 'out').map(v => v.price).reduce((a,b) => a + b, 0);
+        const newMoney = (sort: 'in'|'out') => {
+            return (
+                listOfThisMonth
+                .filter(v => v.inout === sort)
+                .map(v => v.price)
+                .reduce((a,b) => a + b, 0)
+            );
+        }
+        const newIncome = newMoney('in');
+        const newExpense = newMoney('out');
+
         setIncome(newIncome);
         setExpense(newExpense);
     }, [listOfThisMonth, year, month]);
