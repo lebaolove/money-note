@@ -141,6 +141,16 @@
     "babel": {
         "presets": [
             "react-app"
+        ],
+        "plugins": [
+            [
+                "module-resolver",
+                {
+                    "alias": {
+                        "timers": "./node_modules/timers-browserify/main.js"
+                    }
+                }
+            ]
         ]
     },
     "devDependencies": {
