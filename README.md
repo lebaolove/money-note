@@ -2,7 +2,7 @@
 
 <img src="https://user-images.githubusercontent.com/37791485/212610864-70fbf94d-813c-49a8-91b9-95803d09de80.png" width="450">
 
-Demo Page: https://silverg1.github.io/money-note/
+https://moneynoteee.netlify.app/
 
 <br/>
 
