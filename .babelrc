@@ -1,0 +1,12 @@
+{
+    "plugins": [
+        [
+            "module-resolver",
+            {
+                "alias": {
+                    "timers": "./node_modules/timers-browserify/main.js"
+                }
+            }
+        ]
+    ]
+}

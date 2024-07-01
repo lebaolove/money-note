@@ -145,6 +145,7 @@
     },
     "devDependencies": {
         "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-        "@types/react-calendar": "^3.9.0"
+        "@types/react-calendar": "^3.9.0",
+        "babel-plugin-module-resolver": "^5.0.2"
     }
 }
